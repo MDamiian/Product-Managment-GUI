@@ -10,9 +10,9 @@ public class CategoriaController {
 		return new ArrayList<>();
 	}
 
-    public List<?> cargaReporte() {
-        // TODO
-        return new ArrayList<>();
-    }
+	public List<?> cargaReporte() {
+		// TODO
+		return new ArrayList<>();
+	}
 
 }
