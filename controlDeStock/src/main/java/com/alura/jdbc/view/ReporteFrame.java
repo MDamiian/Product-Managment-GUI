@@ -1,53 +1,57 @@
 package com.alura.jdbc.view;
 
 import java.awt.Container;
-
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import com.alura.jdbc.controller.CategoriaController;
 
 public class ReporteFrame extends JFrame {
+	private static final long serialVersionUID = 1L;
+	private JTable tablaReporte;
+	private DefaultTableModel modelo;
+	private CategoriaController categoriaController;
+	
+	public ReporteFrame(ControlDeStockFrame controlDeStockFrame) {
+		super("Reporte de produtos del stock");
 
-    private static final long serialVersionUID = 1L;
+		this.categoriaController = new CategoriaController();
 
-    private JTable tablaReporte;
-    private DefaultTableModel modelo;
+		Container container = getContentPane();
+		setLayout(null);
 
-    private CategoriaController categoriaController;
+		tablaReporte = new JTable();
+		tablaReporte.setBounds(0, 0, 600, 400);
+		container.add(tablaReporte);
 
-    public ReporteFrame(ControlDeStockFrame controlDeStockFrame) {
-        super("Reporte de produtos del stock");
+		modelo = (DefaultTableModel) tablaReporte.getModel();
+		modelo.addColumn("");
+		modelo.addColumn("");
+		modelo.addColumn("");
+		modelo.addColumn("");
 
-        this.categoriaController = new CategoriaController();
+		cargaReporte();
 
-        Container container = getContentPane();
-        setLayout(null);
+		setSize(600, 400);
+		setVisible(true);
+		setLocationRelativeTo(controlDeStockFrame);
+	}
 
-        tablaReporte = new JTable();
-        tablaReporte.setBounds(0, 0, 600, 400);
-        container.add(tablaReporte);
+	private void cargaReporte() {
+		var contenido = categoriaController.cargaReporte();
 
-        modelo = (DefaultTableModel) tablaReporte.getModel();
-        modelo.addColumn("");
-        modelo.addColumn("");
-        modelo.addColumn("");
-        modelo.addColumn("");
-
-        cargaReporte();
-
-        setSize(600, 400);
-        setVisible(true);
-        setLocationRelativeTo(controlDeStockFrame);
-    }
-
-    private void cargaReporte() {
-        var contenido = categoriaController.cargaReporte();
-        
-        // TODO
-        contenido.forEach(fila -> modelo
-                .addRow(new Object[] {}));
-    }
-
+		contenido.forEach(categoria -> {
+			modelo.addRow(new Object[] { categoria });
+			
+			var productos = categoria.getProductos();
+			
+			productos.forEach(producto -> modelo.addRow(
+					new Object[] {
+							"",
+							producto.getNombre(),
+							producto.getCantidad(),
+					}
+					));
+		});
+	}
 }
