@@ -1,5 +1,6 @@
 package com.alura.jdbc.controller;
 
+import com.alura.jdbc.dao.CategoriaDAO;
 import com.alura.jdbc.factory.*;
 import java.util.List;
 import com.alura.jdbc.modelo.Categoria;
